@@ -1,27 +1,31 @@
 ﻿namespace ConsoleMenu
 {
-    public static class Menu
+    // Example with a Mainmenu & Submenu with 3 and 4 options respectively.
+    // menuTag is the caption, this example code outputs "Mainmenu" & "Submenu".
+    // The currently marked option in the menues are shown with green text.
+    // After executed menu option code the menue always reset to the first menu option in said menu.
+    public class Menu
     {
-        // TODO: Centrering av meny tag vs längden på options
-        // TODO: Inramning
-
         private delegate void HandleOption(int option);
         private static readonly bool menuInput = true;
-        private static int option = 1;
+        private int option;
 
-        private static string[] MainOptions { get; } = ["Menu item #1", "Menu item #2", "Menu item #3", "Submenu", "Exit program"];
-        private static string[] SubOptions { get; } = ["Submenu item #1", "Submenu item #2", "Submenu item #3", "Submenu item #4", "Mainmenu"];
+        private static string[] MainOptions { get; } = { "Mainmenu option #1", "Mainmenu option #2", "Mainmenu option #2", "Submenu", "Exit program" };
+        private static string[] SubOptions { get; } = { "Submenu option #1", "Submenu option #2", "Submenu option #3", "Submenu option #4", "Mainmenu" };
 
-        public static void MainMenu()
+        public void MainMenu()
         {
+            option = 1;
             DisplayMenu("Mainmenu", MainOptions, HandleMainOption);
         }
 
-        private static void SubMenu()
+        private void SubMenu()
         {
+            option = 1;
             DisplayMenu("Submenu", SubOptions, HandleSubOption);
         }
-        private static void DisplayMenu(string menuTag, string[] options, HandleOption handleOption)
+
+        private void DisplayMenu(string menuTag, string[] options, HandleOption handler)
         {
             do
             {
@@ -45,8 +49,8 @@
                         option = option == options.Length ? 1 : option + 1;
                         break;
                     case ConsoleKey.Enter:
-                        handleOption(option);
-                        break;
+                        handler(option);
+                        return;
                     default:
                         break;
                 }
@@ -54,7 +58,7 @@
             } while (menuInput);
         }
 
-        private static void DisplayMenuOptions(string[] options)
+        private void DisplayMenuOptions(string[] options)
         {
             for (int i = 0; i < options.Length; i++)
             {
@@ -62,19 +66,18 @@
                 Console.WriteLine($"{(i + 1 == option ? "  ► " : "    ")}{options[i]}");
             }
         }
-
-        private static void HandleMainOption(int option)
+        private void HandleMainOption(int option)
         {
             switch (option)
             {
                 case 1:
-                    Console.WriteLine("Menu item #1");
+                    Console.WriteLine("Mainmenu option #1");
                     break;
                 case 2:
-                    Console.WriteLine("Menu item #2");
+                    Console.WriteLine("Mainmenu option #2");
                     break;
                 case 3:
-                    Console.WriteLine("Menu item #3");
+                    Console.WriteLine("Mainmenu option #3");
                     break;
                 case 4:
                     SubMenu();
@@ -85,31 +88,28 @@
                     Environment.Exit(0);
                     break;
             }
-
-            Console.ReadKey();
         }
 
-        private static void HandleSubOption(int option)
+        private void HandleSubOption(int option)
         {
             switch (option)
             {
                 case 1:
-                    Console.WriteLine("Submenu item #1");
+                    Console.WriteLine("Sub menu option #1");
                     break;
                 case 2:
-                    Console.WriteLine("Submenu item #2");
+                    Console.WriteLine("Sub menu option #2");
                     break;
                 case 3:
-                    Console.WriteLine("Submenu item #3");
+                    Console.WriteLine("Sub menu option #2");
                     break;
                 case 4:
-                    Console.WriteLine("Submenu item #4");
+                    Console.WriteLine("Sub menu option #4");
                     break;
                 case 5:
                     MainMenu();
                     break;
             }
-            Console.ReadKey();
         }
     }
 }
